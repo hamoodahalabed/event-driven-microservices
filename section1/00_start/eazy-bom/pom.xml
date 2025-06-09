@@ -17,14 +17,14 @@
     </licenses>
     <developers>
         <developer>
-            <name>Madan Reddy</name>
-            <email>tutor@eazybytes.com</email>
-            <organization>eazybtes</organization>
-            <organizationUrl>www.eazybytes.com</organizationUrl>
+            <name>Mohammad Alabed</name>
+            <email>mohammad.sh.alabed@gmail.com</email>
+            <organization>mohammad</organization>
+            <organizationUrl>https://github.com/hamoodahalabed/event-driven-microservices</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <url>https://github.com/eazybytes/microservices</url>
+        <url>https://github.com/hamoodahalabed/event-driven-microservices</url>
     </scm>
     <properties>
         <common-lib.version>1.0.0</common-lib.version>
@@ -37,7 +37,7 @@
         <lombok.version>1.18.34</lombok.version>
     </properties>
     <modules>
-        <module>common</module>
+        <module>common</module><!--tag as a module that maven will build when this parent pom is built.-->
     </modules>
     <dependencies>
         <dependency>
