@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+  Parent BOM project for eazybank microservices.
+  It manages versions and common dependencies used across microservices.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- Basic project coordinates -->
     <groupId>com.eazybytes</groupId>
     <artifactId>eazy-bom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>eazy-bom</name>
     <description>Common BOM for eazybank microservices</description>
+
+    <!-- This packaging type means this project is just a container for other modules, not a JAR -->
     <packaging>pom</packaging>
+
     <url>www.eazybytes.com</url>
+
+    <!-- Licensing information -->
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
+
+    <!-- Developer info -->
     <developers>
         <developer>
             <name>Mohammad Alabed</name>
@@ -23,9 +39,13 @@
             <organizationUrl>https://github.com/hamoodahalabed/event-driven-microservices</organizationUrl>
         </developer>
     </developers>
+
+    <!-- Source code repository info -->
     <scm>
         <url>https://github.com/hamoodahalabed/event-driven-microservices</url>
     </scm>
+
+    <!-- Define common version properties for dependencies and Java -->
     <properties>
         <common-lib.version>1.0.0</common-lib.version>
         <spring-boot.version>3.3.4</spring-boot.version>
@@ -36,15 +56,22 @@
         <h2.version>2.2.224</h2.version>
         <lombok.version>1.18.34</lombok.version>
     </properties>
+
+    <!-- List of child modules to be built together with this parent -->
     <modules>
-        <module>common</module><!--tag as a module that maven will build when this parent pom is built.-->
+        <!-- 'common' module holds shared code (utilities, DTOs, etc.) -->
+        <module>common</module>
     </modules>
+
+    <!-- Dependencies that are part of this BOM project itself -->
     <dependencies>
+        <!-- Spring Boot devtools for hot reload during development -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- Testing framework for all modules -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -52,8 +79,10 @@
         </dependency>
     </dependencies>
 
+    <!-- Dependency Management: central place to manage versions of dependencies used across modules -->
     <dependencyManagement>
         <dependencies>
+            <!-- Import Spring Boot managed dependencies -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -61,6 +90,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Import Lombok managed dependencies -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -68,6 +99,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Import H2 database dependencies -->
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
@@ -75,12 +108,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- Spring Boot starter for tests with explicit version -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- Spring Cloud dependency management -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -91,8 +128,10 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- Build plugins configuration -->
     <build>
         <plugins>
+            <!-- Spring Boot Maven plugin enables packaging and running Spring Boot apps -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

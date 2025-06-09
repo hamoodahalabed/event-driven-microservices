@@ -1,55 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.eazybytes</groupId>
-        <artifactId>eazy-bom</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../eazy-bom/pom.xml</relativePath>
-    </parent>
     <groupId>com.eazybytes</groupId>
-    <artifactId>accounts</artifactId>
+    <artifactId>eazy-bom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>accounts</name>
-    <description>Microservice for Accounts</description>
+    <name>eazy-bom</name>
+    <description>Common BOM for eazybank microservices</description>
+    <packaging>pom</packaging>
+    <url>www.eazybytes.com</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Mohammad Alabed</name>
+            <email>mohammad.sh.alabed@gmail.com</email>
+            <organization>mohammad</organization>
+            <organizationUrl>https://github.com/hamoodahalabed/event-driven-microservices</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/hamoodahalabed/event-driven-microservices</url>
+    </scm>
+    <properties>
+        <common-lib.version>1.0.0</common-lib.version>
+        <spring-boot.version>3.3.4</spring-boot.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <h2.version>2.2.224</h2.version>
+        <lombok.version>1.18.34</lombok.version>
+    </properties>
+
+    <!-- Modules built with this parent POM -->
+    <modules>
+        <module>common</module> <!-- The 'common' module contains shared code/libs used across microservices -->
+    </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>com.eazybytes</groupId>
-            <artifactId>common</artifactId>
-            <version>${common-lib.version}</version>
-        </dependency>
+        <!-- Devtools for faster development (hot reload) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
-            <version>${h2.version}</version>
         </dependency>
+        <!-- Testing framework dependency -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-            <version>${lombok.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
+    <!--
+      Central place to manage versions of common dependencies used in all microservices.
+      Microservices will use this to avoid version conflicts and duplication.
+      This is not added to the final build, just used for version management.
+      The common dependencies are added above in the <dependencies> section.
+      This only tell other projects which versions to use so they can add the dependencies without specifying the version.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Boot dependencies BOM - manages core Spring Boot libs versions -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Lombok version management -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- H2 database version -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Boot testing dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Cloud dependencies BOM -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- Plugin to build and package Spring Boot applications -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
