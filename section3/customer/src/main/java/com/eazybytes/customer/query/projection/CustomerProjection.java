@@ -11,6 +11,7 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+// This class is responsible for updating the read database when events happen
 @Component
 @RequiredArgsConstructor
 @ProcessingGroup("customer-group")
@@ -18,7 +19,7 @@ public class CustomerProjection {
 
     private final ICustomerService iCustomerService;
 
-    @EventHandler
+    @EventHandler // handle the event in the method parameter
     public void on(CustomerCreatedEvent customerCreatedEvent) {
         Customer customerEntity = new Customer();
         BeanUtils.copyProperties(customerCreatedEvent,customerEntity);
@@ -27,8 +28,8 @@ public class CustomerProjection {
 
     @EventHandler
     public void on(CustomerUpdatedEvent customerUpdatedEvent) {
-        // throw new RuntimeException("It is a bad day!!");
-        iCustomerService.updateCustomer(customerUpdatedEvent);
+         throw new RuntimeException("It is a bad day!!");
+        //iCustomerService.updateCustomer(customerUpdatedEvent);
     }
 
     @EventHandler

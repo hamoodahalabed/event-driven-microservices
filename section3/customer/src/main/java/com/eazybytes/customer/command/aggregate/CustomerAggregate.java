@@ -21,10 +21,13 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 import java.util.Optional;
 
+// Marks this class as an Aggregate in Axon Framework.
+// An Aggregate represents a consistency boundary for handling commands and applying events.
+// It contains business logic and maintains the state of an entity using event sourcing or standard persistence.
 @Aggregate
-public class CustomerAggregate {
+public class CustomerAggregate { //the aggregate should have the same fields as the Customer entity
 
-    @AggregateIdentifier
+    @AggregateIdentifier //should match this
     private String customerId;
     private String name;
     private String email;
@@ -35,7 +38,7 @@ public class CustomerAggregate {
 
     }
 
-    @CommandHandler
+    @CommandHandler // handle the command in the parameter
     public CustomerAggregate(CreateCustomerCommand createCustomerCommand, CustomerRepository customerRepository) {
         /*Optional<Customer> optionalCustomer = customerRepository.
                 findByMobileNumberAndActiveSw(createCustomerCommand.getMobileNumber(), true);
@@ -44,11 +47,15 @@ public class CustomerAggregate {
                     + createCustomerCommand.getMobileNumber());
         }*/
         CustomerCreatedEvent customerCreatedEvent = new CustomerCreatedEvent();
+        // This copies all matching fields (with the same names and compatible types)
+        // from the createCustomerCommand object into the customerCreatedEvent object.
         BeanUtils.copyProperties(createCustomerCommand, customerCreatedEvent);
+        // This applies the event and also triggers the @EventSourcingHandler in this class
+        // and the @EventHandler in the projection class to update the database
         AggregateLifecycle.apply(customerCreatedEvent);
     }
 
-    @EventSourcingHandler
+    @EventSourcingHandler // updates the object in memory then handle the event in the projection
     public void on(CustomerCreatedEvent customerCreatedEvent) {
         this.customerId = customerCreatedEvent.getCustomerId();
         this.name = customerCreatedEvent.getName();

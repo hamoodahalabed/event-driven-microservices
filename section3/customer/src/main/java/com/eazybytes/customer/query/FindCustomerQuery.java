@@ -5,7 +5,7 @@ import lombok.Value;
 /**
  * VERB+NOUN+Query
  */
-@Value
+@Value // generates getters, toString, equals, and hashCode methods
 public class FindCustomerQuery {
 
     private final String mobileNumber;

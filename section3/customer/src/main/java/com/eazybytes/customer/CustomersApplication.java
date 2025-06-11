@@ -23,6 +23,8 @@ public class CustomersApplication {
         commandGateway.registerDispatchInterceptor(context.getBean(CustomerCommandInterceptor.class));
     }
 
+    //If an error happens while handling an event, don’t ignore
+    // it — just throw it up (propagate it).
     @Autowired
     public void configure(EventProcessingConfigurer config) {
         config.registerListenerInvocationErrorHandler("customer-group",

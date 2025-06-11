@@ -3,7 +3,7 @@ package com.eazybytes.customer.command.event;
 import lombok.Data;
 
 @Data
-public class CustomerUpdatedEvent {
+public class CustomerUpdatedEvent { // Event = Something has happened
 
     private String customerId;
     private String name;
@@ -12,3 +12,5 @@ public class CustomerUpdatedEvent {
     private boolean activeSw;
 
 }
+
+// usually, the event will contain the same fields as the command

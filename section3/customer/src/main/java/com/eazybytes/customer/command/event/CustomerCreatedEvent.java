@@ -6,7 +6,7 @@ import lombok.Data;
  * NOUN+VERB(PastTense)+Event
  */
 @Data
-public class CustomerCreatedEvent {
+public class CustomerCreatedEvent { // Event = Something has happened
 
     private String customerId;
     private String name;
@@ -16,3 +16,4 @@ public class CustomerCreatedEvent {
 
 
 }
+// usually, the event will contain the same fields as the command

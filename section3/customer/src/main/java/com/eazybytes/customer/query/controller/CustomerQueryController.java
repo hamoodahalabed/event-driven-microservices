@@ -34,3 +34,7 @@ public class CustomerQueryController {
     }
 
 }
+
+// The .join() method makes this a synchronous call - it waits until
+// the query is processed and a response is returned.
+// Trigger method with this signature: (FindCustomerQuery findCustomerQuery).

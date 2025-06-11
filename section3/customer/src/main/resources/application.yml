@@ -52,3 +52,16 @@ axon:
         mode: subscribing
   axonserver:
     servers: localhost:8124
+
+
+# customer-group: a name for a group of event handlers (@EventHandler methods)
+# So in this case, all handlers in this group are processed together using one thread
+#
+# mode:
+#   - subscribing: handles events immediately in memory (synchronous)
+#       → Fast and simple, for single-instance setups
+#       → If an error happens in a projection, the whole event is rejected right away (can crash the app)
+#
+#   - tracking: reads events from the event store and handles them independently (asynchronous)
+#       → Good for scaling, replaying, and distributed apps
+#       → If an error happens, the processor can retry, skip, or be configured to stop — without crashing the app so may read unupdated data
